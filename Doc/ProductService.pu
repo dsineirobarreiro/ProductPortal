@@ -1,0 +1,67 @@
+@startuml productService
+
+interface IProductService {
+    +FindProductByName(productName : string, startIndex : int, count : int) : ProductBlock
+    +FindComentario(comId : long) : Comentario
+    +CommentProduct(usuario : long, producto : long, text : string, tagNames : HashSet<string> = null) : Comentario
+    +UpdateComment(comment : Comentario) : void
+    +RemoveComment(commentId : long) : void
+    +SeeProductComments(productId : long, startIndex : int, count : int) : CommentBlock
+    +Find(prodId : long) : ProductoDTO
+    +GetNumberOfProductsByName(productname : string) : int
+}
+
+class ProductService{
+    +ProductDao : IProductDao
+    +CommentDao : ICommentDao
+    +TagDao : ITagDao
+    +UserDao : IUserDao
+    +TagService : ITagService
+}
+
+class ProductDaoEntityFramework {
+
+}
+class CommentDaoEntityFramework {
+
+}
+class TagDaoEntityFramework {
+
+}
+class UserDaoEntityFramework {
+
+}
+class TagService {
+
+}
+
+class ProductBlock{
+    +Products : List<ProductDTO>
+    +ExistMoreProducts : bool
+}
+
+class CommentBlock{
+    +Comments : List<Comentario>
+    +ExistMoreComments : bool
+}
+
+class ProductoDTO {
+    +prodId : long
+    +nombre : string
+    +categoria : string
+    +date : DateTime
+    +imagen : byte[]
+    +descripcion : string
+    +vendedor : string
+}
+
+ProductService *-- ProductDaoEntityFramework
+ProductService *-- CommentDaoEntityFramework
+ProductService *-- TagDaoEntityFramework
+ProductService *-- UserDaoEntityFramework
+ProductService *-- TagService
+ProductService -left- ProductBlock : uses >
+ProductService -left- ProductoDTO : uses >
+ProductService - CommentBlock : uses >
+ProductService .up.|> IProductService
+@enduml

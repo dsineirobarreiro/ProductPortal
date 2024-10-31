@@ -1,0 +1,67 @@
+@startuml ER2
+
+entity Usuario {
+    *userID <<generated>>
+    --
+    *username
+    *pwd
+    *nombre
+    *apellidos
+    *email
+    idioma
+    nacionalidad
+}
+
+entity Producto {
+    *productID <<generated>>
+    --
+    *nombre
+    *categoria
+    *date
+    *vendedor <<FK Usuario>>
+    imagen
+    descripcion
+}
+
+entity Comentario {
+    *comID <<generated>>
+    --
+    *usuario <<FK Usuario>>
+    *producto <<FK Producto>>
+    *date
+    *text
+}
+
+entity Valoracion {
+    *valID <<generated>>
+    --
+    *comprador <<FK Usuario>>
+    *producto <<FK Producto>>
+    *puntuacion
+    comentario
+    *date
+}
+
+entity Etiqueta {
+    tagID <<generated>>
+    --
+    *nombre
+    *numUsos
+}
+
+entity Puntuacion {
+    *userId <<FK Usuario>>
+    --
+    *puntuacion 
+    *numValoraciones
+}
+
+
+Usuario "1 " -- " *  " Producto
+Usuario "1" -- " *  " Comentario
+Usuario "1" -- " *  " Valoracion
+Producto "1  " -- "*" Comentario
+Producto "1" -- " *  " Valoracion
+Usuario "1" -right- "1" Puntuacion
+Etiqueta " *  " -up- " *  " Comentario
+@enduml

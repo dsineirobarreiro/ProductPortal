@@ -1,0 +1,26 @@
+@startuml dynamic
+autonumber "<b>[00]"
+actor user
+participant ProductService
+participant ProductDao
+participant UserDao
+participant ProductDTO
+participant ProductBlock
+database BaseDeDatos
+
+user->ProductService : FindProductByName()
+ProductService -> ProductDao : FindByProductName()
+ProductDao -> BaseDeDatos : SQL Query
+BaseDeDatos --> ProductDao : Query Result
+ProductDao --> ProductService : List<Producto>
+    group foreach(Producto in List<Producto>)
+        ProductService -> UserDao : Getname()
+        UserDao --> ProductService : String username
+        ProductService -> ProductDTO : new ProductoDTO(Producto, username)
+        ProductDTO --> ProductService : ProductoDTO
+        ProductService -> ProductService : List<ProductoDTO>.Add(ProductoDTO)
+    end
+ProductService -> ProductBlock : new ProductBlock(List<ProductoDTO>)
+ProductBlock --> ProductService : ProductBlock
+ProductService --> user : ProductBlock
+@enduml

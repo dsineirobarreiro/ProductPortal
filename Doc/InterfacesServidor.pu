@@ -1,0 +1,41 @@
+@startuml ValTagService
+
+interface IValoracionService {
+    +AddValoracion(comprador : long, product : long, score : double, comentario : string = null) : Valoracion
+    +FindValoracionByValId(valId : long) : Valoracion
+    +FindValoracionByVendor(loginVendor : long, startIndex : int, count : int) : ValoracionBlock
+}
+
+interface ITagService{
+    +CreateTag(tag : string) : Etiqueta
+    +FindById(tagId : long) : Etiqueta
+    +UpdateUses(tagId : long) : void
+    +GetCommentsByTag(tagId : long, startIndex : int, count : int) : CommentBlock
+    +GetCommentsByTagName(name : string, startIndex : int, count : int) : CommentBlock
+    +GetTagsByBlock(startIndex : int, count : int) : TagBlock
+}
+
+interface IProductService {
+    +FindProductByName(productName : string, startIndex : int, count : int) : ProductBlock
+    +FindComentario(comId : long) : Comentario
+    +CommentProduct(usuario : long, producto : long, text : string, tagNames : HashSet<string> = null) : Comentario
+    +UpdateComment(comment : Comentario) : void
+    +RemoveComment(commentId : long) : void
+    +SeeProductComments(productId : long, startIndex : int, count : int) : CommentBlock
+    +Find(prodId : long) : ProductoDTO
+    +GetNumberOfProductsByName(productname : string) : int
+    +GetNumberdOfCommentsByProdId(prodId : long) : int
+}
+
+interface IUserService {
+    +RegisterUser(username: string, password: string, userProfileDetails: UserProfileDetails) : Usuario
+    +UpdateUser(userId : long, userProfileDetails : UserProfileDetails) : void
+    +LoginUser(username: string, password : string, passwordIsEncrypted : bool) : LoginResult
+    +UpdateUserScore(username : string, score : double) : void
+    +Find(userId : long) : UserDTO
+    +FindBYUsername(username : string) : UserDTO
+    +FindUserProfileDetails(userProfileId : long) : UserProfileDetails
+    +ChangePassword(userProfileId : long, oldClearPassword : string, newClearPassword : string) : void
+}
+
+@enduml

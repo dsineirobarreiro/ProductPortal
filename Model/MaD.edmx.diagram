@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9c6e7bafb5594802baf5fc3ded9d06dc" Name="Diagram1">
+        <EntityTypeShape EntityType="MaD.Comentario" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaD.Etiqueta" Width="1.5" PointX="7.5" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaD.Producto" Width="1.5" PointX="3" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaD.Puntuacion" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaD.Usuario" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaD.Valoracion" Width="1.5" PointX="8.25" PointY="5.25" IsExpanded="true" />
+        <AssociationConnector Association="MaD.FK_ComentarioProducto" ManuallyRouted="false" />
+        <AssociationConnector Association="MaD.FK_ComentarioUsuario" ManuallyRouted="false" />
+        <AssociationConnector Association="MaD.FK_ProductoVendedor" ManuallyRouted="false" />
+        <AssociationConnector Association="MaD.FK_ValoracionProducto" ManuallyRouted="false" />
+        <AssociationConnector Association="MaD.FK_PuntuacionUsuario" ManuallyRouted="false" />
+        <AssociationConnector Association="MaD.FK_ValoracionComprador" ManuallyRouted="false" />
+        <AssociationConnector Association="MaD.TagCom" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

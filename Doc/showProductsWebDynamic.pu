@@ -1,0 +1,28 @@
+@startuml webDynamic2
+autonumber "<b>[00]"
+actor user
+
+group Iteración(las veces que el user quiera)
+user -> showProds : Pulsar botón next o prev
+showProds -> productService : FindProductByName()
+productService --> showProds : productBlock
+showProds -> showProds : dataBind(productBlock)
+showProds --> user : carga showProds
+end
+alt Ver perfil usuario
+user -> showProds : Pulsar nombre usuario
+showProds -> showRatings : Cargar página
+end
+alt Comentar producto
+user -> showProds : Pulsar Comentar
+showProds -> commentProduct : Cargar página
+end
+alt Valorar producto
+user -> showProds : Pulsar Valorar
+showProds -> rateProduct : Cargar página
+end
+alt Mostrar comentarios
+user -> showProds : Pulsar mostrar comentarios
+showProds -> showComments : Cargar página
+end
+@enduml

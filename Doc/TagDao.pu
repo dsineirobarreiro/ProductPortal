@@ -1,0 +1,38 @@
+@startuml TagDao
+
+namespace PracticaMad.Model.TagDAO{
+    interface ITagDao{
+    +FindByName(name: string) : Etiqueta
+    +FindCommentsByName(name: string, startIndex: int, count: int) : List<Comentario>
+    +FindCommentsByTagId(tagId: long, startIndex: int, count: int) : List<Comentario>
+    +GetCommentNumberOfTag(tagId: long) : int
+}
+class TagDaoEntityFramework {
+    +FindByName(name: string) : Etiqueta
+    +FindCommentsByName(name: string, startIndex: int, count: int) : List<Comentario>
+    +FindCommentsByTagId(tagId: long, startIndex: int, count: int) : List<Comentario>
+    +GetCommentNumberOfTag(tagId: long) : int}
+}
+}
+namespace Es.Udc.DotNet.ModelUtil.Dao{
+interface IgenericDao<Etiqueta, Int64> {
+    +Create(object: Etiqueta) : void
+    +Update(object: Etiqueta) : void
+    +Find(id : Int64) : Etiqueta
+    +Remove(id : Int64) : void
+}
+
+class GenericDaoEntityFramework<Etiqueta, Int64> {
+    +Create(object: Etiqueta) : void
+    +Update(object: Etiqueta) : void
+    +Find(id : Int64) : Etiqueta
+    +Remove(id : Int64) : void
+}
+}
+PracticaMad.Model.TagDAO.ITagDao --|> Es.Udc.DotNet.ModelUtil.Dao.IgenericDao
+
+
+PracticaMad.Model.TagDAO.TagDaoEntityFramework ..|> PracticaMad.Model.TagDAO.ITagDao
+Es.Udc.DotNet.ModelUtil.Dao.GenericDaoEntityFramework ..|> Es.Udc.DotNet.ModelUtil.Dao.IgenericDao
+PracticaMad.Model.TagDAO.TagDaoEntityFramework --|> Es.Udc.DotNet.ModelUtil.Dao.GenericDaoEntityFramework
+@enduml

@@ -1,0 +1,34 @@
+@startuml ProductDao
+
+namespace PracticaMad.Model.ProductoDAO{
+    interface IProductoDao{
+    +FindByProductName(productName: string, startIndex: int, count: int) : List<Producto>
+    +GetNumberOfProductByName(productName: string) : int
+}
+class ProductoDaoEntityFramework {
+    +FindByProductName(productName: string, startIndex: int, count: int) : List<Producto>
+    +GetNumberOfProductByName(productName: string) : int
+}
+}
+namespace Es.Udc.DotNet.ModelUtil.Dao{
+interface IgenericDao<Producto, Int64> {
+    +Create(object: Producto) : void
+    +Update(object: Producto) : void
+    +Find(id : Int64) : Producto
+    +Remove(id : Int64) : void
+}
+
+class GenericDaoEntityFramework<Producto, Int64> {
+    +Create(object: Producto) : void
+    +Update(object: Producto) : void
+    +Find(id : Int64) : Producto
+    +Remove(id : Int64) : void
+}
+}
+PracticaMad.Model.ProductoDAO.IProductoDao --|> Es.Udc.DotNet.ModelUtil.Dao.IgenericDao
+
+
+PracticaMad.Model.ProductoDAO.ProductoDaoEntityFramework ..|> PracticaMad.Model.ProductoDAO.IProductoDao
+Es.Udc.DotNet.ModelUtil.Dao.GenericDaoEntityFramework ..|> Es.Udc.DotNet.ModelUtil.Dao.IgenericDao
+PracticaMad.Model.ProductoDAO.ProductoDaoEntityFramework --|> Es.Udc.DotNet.ModelUtil.Dao.GenericDaoEntityFramework
+@enduml

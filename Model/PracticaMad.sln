@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33214.272
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model.csproj", "{8A03E819-4D2B-48AE-997D-F2EC1CEB7FBD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "..\Web\Web.csproj", "{7785EDD9-84E5-480C-80F9-97D5A558573F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "..\Test\Test.csproj", "{19E8B0FB-52F5-4DD4-A692-D6F551C9F553}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8A03E819-4D2B-48AE-997D-F2EC1CEB7FBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A03E819-4D2B-48AE-997D-F2EC1CEB7FBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A03E819-4D2B-48AE-997D-F2EC1CEB7FBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A03E819-4D2B-48AE-997D-F2EC1CEB7FBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7785EDD9-84E5-480C-80F9-97D5A558573F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7785EDD9-84E5-480C-80F9-97D5A558573F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7785EDD9-84E5-480C-80F9-97D5A558573F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7785EDD9-84E5-480C-80F9-97D5A558573F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19E8B0FB-52F5-4DD4-A692-D6F551C9F553}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19E8B0FB-52F5-4DD4-A692-D6F551C9F553}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19E8B0FB-52F5-4DD4-A692-D6F551C9F553}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19E8B0FB-52F5-4DD4-A692-D6F551C9F553}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Logging.6.0.1304.0\lib\NET45
+		SolutionGuid = {270F26DA-6E53-45E6-8744-7FCA96487305}
+	EndGlobalSection
+EndGlobal

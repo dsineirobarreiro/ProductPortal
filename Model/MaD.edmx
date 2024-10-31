@@ -1,0 +1,513 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MaD.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Comentario">
+          <Key>
+            <PropertyRef Name="comID" />
+          </Key>
+          <Property Name="comID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usuario" Type="bigint" Nullable="false" />
+          <Property Name="producto" Type="bigint" Nullable="false" />
+          <Property Name="date" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="text" Type="varchar" MaxLength="512" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Etiqueta">
+          <Key>
+            <PropertyRef Name="tagID" />
+          </Key>
+          <Property Name="tagID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="numUsos" Type="int" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="productID" />
+          </Key>
+          <Property Name="productID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="categoria" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="date" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="vendedor" Type="bigint" Nullable="false" />
+          <Property Name="imagen" Type="varbinary" MaxLength="1" />
+          <Property Name="descripcion" Type="varchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="Puntuacion">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="bigint" Nullable="false" />
+          <Property Name="puntuacion" Type="float" Nullable="false" />
+          <Property Name="numValoraciones" Type="int" />
+        </EntityType>
+        <EntityType Name="TagCom">
+          <Key>
+            <PropertyRef Name="tag" />
+            <PropertyRef Name="comentario" />
+          </Key>
+          <Property Name="tag" Type="bigint" Nullable="false" />
+          <Property Name="comentario" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="pwd" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="apellidos" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="idioma" Type="varchar" MaxLength="64" />
+          <Property Name="nacionalidad" Type="varchar" MaxLength="64" />
+        </EntityType>
+        <EntityType Name="Valoracion">
+          <Key>
+            <PropertyRef Name="valID" />
+          </Key>
+          <Property Name="valID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="comprador" Type="bigint" Nullable="false" />
+          <Property Name="producto" Type="bigint" Nullable="false" />
+          <Property Name="puntuacion" Type="float" Nullable="false" />
+          <Property Name="comentario" Type="varchar" MaxLength="512" />
+          <Property Name="date" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ComentarioProducto">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="Comentario" Type="Self.Comentario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="productID" />
+            </Principal>
+            <Dependent Role="Comentario">
+              <PropertyRef Name="producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ComentarioUsuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Comentario" Type="Self.Comentario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Comentario">
+              <PropertyRef Name="usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductoVendedor">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Producto">
+              <PropertyRef Name="vendedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PuntuacionUsuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Puntuacion" Type="Self.Puntuacion" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Puntuacion">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TagComentarioComentario">
+          <End Role="Comentario" Type="Self.Comentario" Multiplicity="1" />
+          <End Role="TagCom" Type="Self.TagCom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comentario">
+              <PropertyRef Name="comID" />
+            </Principal>
+            <Dependent Role="TagCom">
+              <PropertyRef Name="comentario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TagComentarioTag">
+          <End Role="Etiqueta" Type="Self.Etiqueta" Multiplicity="1" />
+          <End Role="TagCom" Type="Self.TagCom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Etiqueta">
+              <PropertyRef Name="tagID" />
+            </Principal>
+            <Dependent Role="TagCom">
+              <PropertyRef Name="tag" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ValoracionComprador">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Valoracion" Type="Self.Valoracion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Valoracion">
+              <PropertyRef Name="comprador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ValoracionProducto">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="Valoracion" Type="Self.Valoracion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="productID" />
+            </Principal>
+            <Dependent Role="Valoracion">
+              <PropertyRef Name="producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MaDStoreContainer">
+          <EntitySet Name="Comentario" EntityType="Self.Comentario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Etiqueta" EntityType="Self.Etiqueta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Producto" EntityType="Self.Producto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Puntuacion" EntityType="Self.Puntuacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TagCom" EntityType="Self.TagCom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Valoracion" EntityType="Self.Valoracion" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ComentarioProducto" Association="Self.FK_ComentarioProducto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Comentario" EntitySet="Comentario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ComentarioUsuario" Association="Self.FK_ComentarioUsuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Comentario" EntitySet="Comentario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductoVendedor" Association="Self.FK_ProductoVendedor">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Producto" EntitySet="Producto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PuntuacionUsuario" Association="Self.FK_PuntuacionUsuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Puntuacion" EntitySet="Puntuacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TagComentarioComentario" Association="Self.FK_TagComentarioComentario">
+            <End Role="Comentario" EntitySet="Comentario" />
+            <End Role="TagCom" EntitySet="TagCom" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TagComentarioTag" Association="Self.FK_TagComentarioTag">
+            <End Role="Etiqueta" EntitySet="Etiqueta" />
+            <End Role="TagCom" EntitySet="TagCom" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ValoracionComprador" Association="Self.FK_ValoracionComprador">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Valoracion" EntitySet="Valoracion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ValoracionProducto" Association="Self.FK_ValoracionProducto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Valoracion" EntitySet="Valoracion" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MaD" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Comentario">
+          <Key>
+            <PropertyRef Name="comID" />
+          </Key>
+          <Property Name="comID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usuario" Type="Int64" Nullable="false" />
+          <Property Name="producto" Type="Int64" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="text" Type="String" MaxLength="512" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Producto1" Relationship="Self.FK_ComentarioProducto" FromRole="Comentario" ToRole="Producto" />
+          <NavigationProperty Name="Usuario1" Relationship="Self.FK_ComentarioUsuario" FromRole="Comentario" ToRole="Usuario" />
+          <NavigationProperty Name="Etiqueta" Relationship="Self.TagCom" FromRole="Comentario" ToRole="Etiqueta" />
+        </EntityType>
+        <EntityType Name="Etiqueta">
+          <Key>
+            <PropertyRef Name="tagID" />
+          </Key>
+          <Property Name="tagID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="numUsos" Type="Int32" />
+          <NavigationProperty Name="Comentario" Relationship="Self.TagCom" FromRole="Etiqueta" ToRole="Comentario" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="productID" />
+          </Key>
+          <Property Name="productID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="categoria" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="vendedor" Type="Int64" Nullable="false" />
+          <Property Name="imagen" Type="Binary" MaxLength="1" FixedLength="false" />
+          <Property Name="descripcion" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Comentario" Relationship="Self.FK_ComentarioProducto" FromRole="Producto" ToRole="Comentario" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_ProductoVendedor" FromRole="Producto" ToRole="Usuario" />
+          <NavigationProperty Name="Valoracion" Relationship="Self.FK_ValoracionProducto" FromRole="Producto" ToRole="Valoracion" />
+        </EntityType>
+        <EntityType Name="Puntuacion">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="Int64" Nullable="false" />
+          <Property Name="puntuacion1" Type="Double" Nullable="false" />
+          <Property Name="numValoraciones" Type="Int32" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_PuntuacionUsuario" FromRole="Puntuacion" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pwd" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apellidos" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idioma" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="nacionalidad" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Comentario" Relationship="Self.FK_ComentarioUsuario" FromRole="Usuario" ToRole="Comentario" />
+          <NavigationProperty Name="Producto" Relationship="Self.FK_ProductoVendedor" FromRole="Usuario" ToRole="Producto" />
+          <NavigationProperty Name="Puntuacion" Relationship="Self.FK_PuntuacionUsuario" FromRole="Usuario" ToRole="Puntuacion" />
+          <NavigationProperty Name="Valoracion" Relationship="Self.FK_ValoracionComprador" FromRole="Usuario" ToRole="Valoracion" />
+        </EntityType>
+        <EntityType Name="Valoracion">
+          <Key>
+            <PropertyRef Name="valID" />
+          </Key>
+          <Property Name="valID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="comprador" Type="Int64" Nullable="false" />
+          <Property Name="producto" Type="Int64" Nullable="false" />
+          <Property Name="puntuacion" Type="Double" Nullable="false" />
+          <Property Name="comentario" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Producto1" Relationship="Self.FK_ValoracionProducto" FromRole="Valoracion" ToRole="Producto" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_ValoracionComprador" FromRole="Valoracion" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK_ComentarioProducto">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="Comentario" Type="Self.Comentario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="productID" />
+            </Principal>
+            <Dependent Role="Comentario">
+              <PropertyRef Name="producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ComentarioUsuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Comentario" Type="Self.Comentario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Comentario">
+              <PropertyRef Name="usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductoVendedor">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Producto">
+              <PropertyRef Name="vendedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ValoracionProducto">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="Valoracion" Type="Self.Valoracion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="productID" />
+            </Principal>
+            <Dependent Role="Valoracion">
+              <PropertyRef Name="producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PuntuacionUsuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Puntuacion" Type="Self.Puntuacion" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Puntuacion">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ValoracionComprador">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Valoracion" Type="Self.Valoracion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Valoracion">
+              <PropertyRef Name="comprador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TagCom">
+          <End Role="Comentario" Type="Self.Comentario" Multiplicity="*" />
+          <End Role="Etiqueta" Type="Self.Etiqueta" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Comentario" EntityType="Self.Comentario" />
+          <EntitySet Name="Etiqueta" EntityType="Self.Etiqueta" />
+          <EntitySet Name="Producto" EntityType="Self.Producto" />
+          <EntitySet Name="Puntuacion" EntityType="Self.Puntuacion" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <EntitySet Name="Valoracion" EntityType="Self.Valoracion" />
+          <AssociationSet Name="FK_ComentarioProducto" Association="Self.FK_ComentarioProducto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Comentario" EntitySet="Comentario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ComentarioUsuario" Association="Self.FK_ComentarioUsuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Comentario" EntitySet="Comentario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductoVendedor" Association="Self.FK_ProductoVendedor">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Producto" EntitySet="Producto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ValoracionProducto" Association="Self.FK_ValoracionProducto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Valoracion" EntitySet="Valoracion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PuntuacionUsuario" Association="Self.FK_PuntuacionUsuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Puntuacion" EntitySet="Puntuacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ValoracionComprador" Association="Self.FK_ValoracionComprador">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Valoracion" EntitySet="Valoracion" />
+          </AssociationSet>
+          <AssociationSet Name="TagCom" Association="Self.TagCom">
+            <End Role="Comentario" EntitySet="Comentario" />
+            <End Role="Etiqueta" EntitySet="Etiqueta" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MaDStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Comentario">
+            <EntityTypeMapping TypeName="MaD.Comentario">
+              <MappingFragment StoreEntitySet="Comentario">
+                <ScalarProperty Name="comID" ColumnName="comID" />
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="producto" ColumnName="producto" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="text" ColumnName="text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Etiqueta">
+            <EntityTypeMapping TypeName="MaD.Etiqueta">
+              <MappingFragment StoreEntitySet="Etiqueta">
+                <ScalarProperty Name="tagID" ColumnName="tagID" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="numUsos" ColumnName="numUsos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Producto">
+            <EntityTypeMapping TypeName="MaD.Producto">
+              <MappingFragment StoreEntitySet="Producto">
+                <ScalarProperty Name="productID" ColumnName="productID" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="categoria" ColumnName="categoria" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="vendedor" ColumnName="vendedor" />
+                <ScalarProperty Name="imagen" ColumnName="imagen" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Puntuacion">
+            <EntityTypeMapping TypeName="MaD.Puntuacion">
+              <MappingFragment StoreEntitySet="Puntuacion">
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="puntuacion1" ColumnName="puntuacion" />
+                <ScalarProperty Name="numValoraciones" ColumnName="numValoraciones" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="MaD.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="pwd" ColumnName="pwd" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="idioma" ColumnName="idioma" />
+                <ScalarProperty Name="nacionalidad" ColumnName="nacionalidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Valoracion">
+            <EntityTypeMapping TypeName="MaD.Valoracion">
+              <MappingFragment StoreEntitySet="Valoracion">
+                <ScalarProperty Name="valID" ColumnName="valID" />
+                <ScalarProperty Name="comprador" ColumnName="comprador" />
+                <ScalarProperty Name="producto" ColumnName="producto" />
+                <ScalarProperty Name="puntuacion" ColumnName="puntuacion" />
+                <ScalarProperty Name="comentario" ColumnName="comentario" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="TagCom" TypeName="MaD.TagCom" StoreEntitySet="TagCom">
+            <EndProperty Name="Comentario">
+              <ScalarProperty Name="comID" ColumnName="comentario" />
+            </EndProperty>
+            <EndProperty Name="Etiqueta">
+              <ScalarProperty Name="tagID" ColumnName="tag" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

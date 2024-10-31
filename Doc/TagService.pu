@@ -1,0 +1,36 @@
+@startuml TagService
+
+interface ITagService{
+    +CreateTag(tag : string) : Etiqueta
+    +FindById(tagId : long) : Etiqueta
+    +UpdateUses(tagId : long) : void
+    +GetCommentsByTag(tagId : long, startIndex : int, count : int) : CommentBlock
+    +GetCommentsByTagName(name : string, startIndex : int, count : int) : CommentBlock
+}
+
+class TagService {
+    TagDao : ITagDao
+}
+
+class CommentDTO {
+    +comId : long
+    +usuario : string
+    +producto : long
+    +date : DateTime
+    +text : string
+}
+
+class CommentBlock{
+    +Comments : List<Comentario>
+    +ExistMoreComments : bool
+}
+class TagDaoEntityFramework {
+
+}
+
+TagService -left- CommentDTO : uses >
+CommentBlock *-left- CommentDTO
+TagService *-- TagDaoEntityFramework
+TagService -left- CommentBlock : uses >
+TagService .up.|> ITagService
+@enduml
